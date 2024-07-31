@@ -1,12 +1,12 @@
 const express = require('express');
 
+const routes = require("./routes")
+
 const app = express();
+app.use(express.json())
 
-app.get("/",(request,response)=>{
+app.use(routes);
 
-  response.send("hello,world!)
-
-});
 
 const PORT = 3333;
 
