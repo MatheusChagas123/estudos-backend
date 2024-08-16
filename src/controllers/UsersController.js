@@ -1,24 +1,25 @@
-const AppError = require("../utils/AppError")
-class UsersController{
-/**
- * cada controller vai ter no máximo 5 métodos ( funções)
- * por exemplo:
-   * index - GET para listar vários registros.
-   * show - GET para exibir um registro específico.
-   * create - POST para criar um registro.
-   * update - PUT para atualizar um registro.
-   * delete - DELETE para remover um registro.
-   */
+const AppError = require('../utils/AppError');
+const sqliteConnection = require('../database/sqlite');
 
+class UsersController {
+  // * create - POST para criar um registro.
+  async create(request, response) {
+    const { name, email, password } = request.body;
+    const database = await sqliteConnection();
+    
+    const checkUsersExists = await database.get(
+      "SELECT * FROM users WHERE email = ?",
+      [email]
+    );
+    
+    if (checkUsersExists) {
+      throw new AppError('Este e-mail já está em uso');
+    }
 
-// * create - POST para criar um registro.
-create ( request,response){
-  const{name,email,password} = request.body;
-  if(!name){
-    throw new AppError("faltou digitar o nome!")
+    await database.run("INSERT INTO users(name,email,password) VALUES (?,?,?)",[name,email,password])
+
+    return response.status(201).json("deu certo");
   }
-  response.status(201).json({name,email,password})
-}
 }
 
 module.exports = UsersController;
