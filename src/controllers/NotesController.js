@@ -40,6 +40,16 @@ class NotesController {
       return response.status(500).json({ error: 'Erro interno do servidor' });
     }
   }
+
+  async show (request,response){
+    const {id} = request.params;
+    const note = await knex('notes').where({id}).first();
+    const tags = await knex("tags").where({notes_id:id}).orderBy("name");
+    const links = await knex("links").where({notes_id:id}).orderBy("created_at");
+    return response.json({...note,
+      tags,
+      links});
+  }
 }
 
 module.exports = NotesController;
