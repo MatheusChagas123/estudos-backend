@@ -10,7 +10,7 @@ class NotesController {
   async create(request, response) {
     try {
       const { title, description, tags, links } = request.body;
-      const { user_id } = request.params; // Assuming user_id is received as a parameter
+      const  user_id  = request.user.id; // Assuming user_id is received as a parameter
 
       // Inserir a nota
       const [noteId] = await knex('notes').insert({
@@ -58,8 +58,8 @@ class NotesController {
     return response.json();
   }
   async index(request, response) {
-    const { title, user_id, tags } = request.query
-
+    const { title,  tags } = request.query
+    const user_id = request.user.id;
     let notes
 
     if (tags) {

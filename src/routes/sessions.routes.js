@@ -6,4 +6,3 @@ const sessionsController = new SessionsController();
 const sesseionRoutes = Router();
 sesseionRoutes.post("/",sessionsController.create)
 module.exports = sesseionRoutes;
-
