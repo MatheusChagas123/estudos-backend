@@ -13,6 +13,7 @@
   "description": "aprendendo os primeiros passo para um projeto node.js",
   "dependencies": {
     "api": "file:",
+    "axios": "^1.7.7",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
